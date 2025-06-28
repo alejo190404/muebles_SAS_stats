@@ -1,29 +1,25 @@
 package co.com.bancolombia.api;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
+
+import co.com.bancolombia.model.stat.Stat;
+import co.com.bancolombia.usecase.processstats.ProcessStatsUseCase;
+import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
 
 @Component
 @RequiredArgsConstructor
 public class Handler {
 //private  final UseCase useCase;
+private final ProcessStatsUseCase proccessStatsUseCase;
 //private  final UseCase2 useCase2;
 
-    public Mono<ServerResponse> listenGETUseCase(ServerRequest serverRequest) {
-        // useCase.logic();
-        return ServerResponse.ok().bodyValue("");
-    }
-
-    public Mono<ServerResponse> listenGETOtherUseCase(ServerRequest serverRequest) {
-        // useCase2.logic();
-        return ServerResponse.ok().bodyValue("");
-    }
-
-    public Mono<ServerResponse> listenPOSTUseCase(ServerRequest serverRequest) {
-        // useCase.logic();
-        return ServerResponse.ok().bodyValue("");
+    public Mono<ServerResponse> listenPOSTProcessStats(ServerRequest serverRequest) {
+        return serverRequest
+                .bodyToMono(Stat.class)
+                .map(stat -> proccessStatsUseCase.exposeEndpointTest())
+                .flatMap(result -> ServerResponse.ok().bodyValue(result));
     }
 }
