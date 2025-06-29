@@ -18,7 +18,7 @@ import software.amazon.awssdk.services.dynamodb.DynamoDbAsyncClient;
 public class DynamoDBConfig {
 
     @Bean
-    @Profile({ "local" })
+    @Profile({ "local", "default" })
     public DynamoDbAsyncClient amazonDynamoDB(@Value("${aws.dynamodb.endpoint}") String endpoint,
             @Value("${aws.region}") String region,
             MetricPublisher publisher) {

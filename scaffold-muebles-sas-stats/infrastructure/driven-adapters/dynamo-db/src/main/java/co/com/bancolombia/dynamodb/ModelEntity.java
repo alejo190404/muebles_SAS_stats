@@ -1,39 +1,116 @@
 package co.com.bancolombia.dynamodb;
 
-import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.*;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbAttribute;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey;
 
 /* Enhanced DynamoDB annotations are incompatible with Lombok #1932
-         https://github.com/aws/aws-sdk-java-v2/issues/1932*/
+        https://github.com/aws/aws-sdk-java-v2/issues/1932*/
 @DynamoDbBean
 public class ModelEntity {
 
-    private String id;
-    private String atr1;
+    private String timestamp;
+    private Integer totalContactoClientes;
+    private Integer motivoReclamo;
+    private Integer motivoGarantia;
+    private Integer motivoDuda;
+    private Integer motivoCompra;
+    private Integer motivoFelicitaciones;
+    private Integer motivoCambio;
 
     public ModelEntity() {
     }
 
-    public ModelEntity(String id, String atr1) {
-        this.id = id;
-        this.atr1 = atr1;
+    public ModelEntity(String timestamp,
+                        Integer totalContactoClientes,
+                        Integer motivoReclamo,
+                        Integer motivoGarantia,
+                        Integer motivoDuda,
+                        Integer motivoCompra,
+                        Integer motivoFelicitaciones,
+                        Integer motivoCambio) {
+        this.timestamp = timestamp;
+        this.totalContactoClientes = totalContactoClientes;
+        this.motivoReclamo = motivoReclamo;
+        this.motivoGarantia = motivoGarantia;
+        this.motivoDuda = motivoDuda;
+        this.motivoCompra = motivoCompra;
+        this.motivoFelicitaciones = motivoFelicitaciones;
+        this.motivoCambio = motivoCambio;
     }
 
     @DynamoDbPartitionKey
-    @DynamoDbAttribute("name")
-    public String getId() {
-        return id;
+    @DynamoDbAttribute("timestamp")
+    public String getTimestamp() {
+        return timestamp;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
     }
 
-    @DynamoDbAttribute("atr1")
-    public String getAtr1() {
-        return atr1;
+    @DynamoDbAttribute("totalContactoClientes")
+    public Integer getTotalContactoClientes() {
+        return totalContactoClientes;
     }
 
-    public void setAtr1(String atr1) {
-        this.atr1 = atr1;
+    public void setTotalContactoClientes(Integer totalContactoClientes) {
+        this.totalContactoClientes = totalContactoClientes;
     }
+
+    @DynamoDbAttribute("motivoReclamo")
+    public Integer getMotivoReclamo() {
+        return motivoReclamo;
+    }
+
+    public void setMotivoReclamo(Integer motivoReclamo) {
+        this.motivoReclamo = motivoReclamo;
+    }
+
+    @DynamoDbAttribute("motivoGarantia")
+    public Integer getMotivoGarantia() {
+        return motivoGarantia;
+    }
+
+    public void setMotivoGarantia(Integer motivoGarantia) {
+        this.motivoGarantia = motivoGarantia;
+    }
+
+    @DynamoDbAttribute("motivoDuda")
+    public Integer getMotivoDuda() {
+        return motivoDuda;
+    }
+
+    public void setMotivoDuda(Integer motivoDuda) {
+        this.motivoDuda = motivoDuda;
+    }
+
+    @DynamoDbAttribute("motivoCompra")
+    public Integer getMotivoCompra() {
+        return motivoCompra;
+    }
+
+    public void setMotivoCompra(Integer motivoCompra) {
+        this.motivoCompra = motivoCompra;
+    }
+
+    @DynamoDbAttribute("motivoFelicitaciones")
+    public Integer getMotivoFelicitaciones() {
+        return motivoFelicitaciones;
+    }
+
+    public void setMotivoFelicitaciones(Integer motivoFelicitaciones) {
+        this.motivoFelicitaciones = motivoFelicitaciones;
+    }
+
+    @DynamoDbAttribute("motivoCambio")
+    public Integer getMotivoCambio() {
+        return motivoCambio;
+    }
+
+    public void setMotivoCambio(Integer motivoCambio) {
+        this.motivoCambio = motivoCambio;
+    }
+
+    
 }
