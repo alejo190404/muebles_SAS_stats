@@ -11,6 +11,8 @@ spring:
       path: "/h2"
   profiles:
     include: null
+  rabbitmq:
+    virtual-host: /
 management:
   endpoints:
     web:
@@ -26,3 +28,7 @@ aws:
   dynamodb:
     endpoint: "http://localhost:8000"
   region: "us-east-1"
+app:
+  async:
+    createTopology: true
+    listenReplies: true

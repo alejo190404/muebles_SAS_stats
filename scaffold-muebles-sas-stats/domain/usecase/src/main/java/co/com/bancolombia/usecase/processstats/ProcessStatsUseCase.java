@@ -3,6 +3,7 @@ package co.com.bancolombia.usecase.processstats;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import co.com.bancolombia.model.events.gateways.EventsGateway;
 import co.com.bancolombia.model.stat.Stat;
 import co.com.bancolombia.model.stat.gateways.StatRepository;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 public class ProcessStatsUseCase {
 
     private final StatRepository statRepository;
+    private final EventsGateway eventsGateway;
 
     public String exposeEndpointTest() {
         return "Endpdoint exposed appropiately";
@@ -35,8 +37,8 @@ public class ProcessStatsUseCase {
 
             // RabbitMQ. Add it to queue "event.stats.validated"
             try {
-                // Logic for publishing
-                
+                // RabbitMQ
+                eventsGateway.emit(stat);
             } catch (Exception e) {
                 System.out.println(e);
                 return "Could not publish stat into the queue";
