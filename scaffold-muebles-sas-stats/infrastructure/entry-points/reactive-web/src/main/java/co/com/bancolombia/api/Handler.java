@@ -19,7 +19,13 @@ private final ProcessStatsUseCase proccessStatsUseCase;
     public Mono<ServerResponse> listenPOSTProcessStats(ServerRequest serverRequest) {
         return serverRequest
                 .bodyToMono(Stat.class)
-                .map(stat -> proccessStatsUseCase.exposeEndpointTest())
-                .flatMap(result -> ServerResponse.ok().bodyValue(result));
+                .map(stat -> proccessStatsUseCase.processStats(stat))
+                .flatMap(result -> {
+                    if (result.equals("Successfull opeartion")) {
+                        return ServerResponse.ok().bodyValue(result);
+                    } else {
+                        return ServerResponse.badRequest().bodyValue(result);
+                    }
+                });
     }
 }
