@@ -20,6 +20,12 @@ private final ProcessStatsUseCase proccessStatsUseCase;
         return serverRequest
                 .bodyToMono(Stat.class)
                 .map(stat -> proccessStatsUseCase.processStats(stat))
-                .flatMap(result -> ServerResponse.ok().bodyValue(result));
+                .flatMap(result -> {
+                    if (result.equals("Successfull opeartion")) {
+                        return ServerResponse.ok().bodyValue(result);
+                    } else {
+                        return ServerResponse.badRequest().bodyValue(result);
+                    }
+                });
     }
 }

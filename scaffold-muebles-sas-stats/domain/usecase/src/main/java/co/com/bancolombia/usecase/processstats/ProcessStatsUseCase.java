@@ -16,21 +16,36 @@ public class ProcessStatsUseCase {
         return "Endpdoint exposed appropiately";
     }
 
-    public boolean processStats(Stat stat) {
+    public String processStats(Stat stat) {
         // if hash is correct, add it to DB and publish it to rabbitMQ
-        if (true) { // hardcoded for tests
-            // DynamoDB. Add with primary key as timestamp
+        boolean isHashValid = true; // hardcoded for tests
+        if (isHashValid) {
+            // Set stat timestamp
             LocalDateTime now = LocalDateTime.now();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
             stat.setTimestamp(now.format(formatter));
-
-            statRepository.save(stat);
+            
+            try {
+                // DynamoDB. Add with primary key as timestamp
+                statRepository.save(stat);
+            } catch (Exception e) {
+                System.out.println(e);
+                return "Could not save stat into the DB";
+            }
 
             // RabbitMQ. Add it to queue "event.stats.validated"
+            try {
+                // Logic for publishing
+                
+            } catch (Exception e) {
+                System.out.println(e);
+                return "Could not publish stat into the queue";
+            }
 
+            return "Successfull opeartion";
         }
 
         // if hash is not correct, return 400 and error message
-        return false;
+        return "Invalid hash";
     }
 }
