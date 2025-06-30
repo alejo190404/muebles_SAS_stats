@@ -19,7 +19,7 @@ private final ProcessStatsUseCase proccessStatsUseCase;
     public Mono<ServerResponse> listenPOSTProcessStats(ServerRequest serverRequest) {
         return serverRequest
                 .bodyToMono(Stat.class)
-                .map(stat -> proccessStatsUseCase.exposeEndpointTest())
+                .map(stat -> proccessStatsUseCase.processStats(stat))
                 .flatMap(result -> ServerResponse.ok().bodyValue(result));
     }
 }

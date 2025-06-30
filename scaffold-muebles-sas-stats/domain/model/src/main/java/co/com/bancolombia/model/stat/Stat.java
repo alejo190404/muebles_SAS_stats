@@ -11,6 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder(toBuilder = true)
 public class Stat {
+    private String timestamp;
     private Integer totalContactoClientes;
     private Integer motivoReclamo;
     private Integer motivoGarantia;

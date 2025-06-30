@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import co.com.bancolombia.dynamodb.helper.TemplateAdapterOperations;
 import co.com.bancolombia.model.stat.Stat;
+import co.com.bancolombia.model.stat.gateways.StatRepository;
 import reactor.core.publisher.Mono;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedAsyncClient;
 import software.amazon.awssdk.enhanced.dynamodb.Key;
@@ -15,7 +16,7 @@ import software.amazon.awssdk.enhanced.dynamodb.model.QueryEnhancedRequest;
 
 
 @Repository
-public class DynamoDBTemplateAdapter extends TemplateAdapterOperations<Stat, String, ModelEntity /*adapter model*/> /* implements Gateway from domain */ {
+public class DynamoDBTemplateAdapter extends TemplateAdapterOperations<Stat, String, ModelEntity> implements StatRepository {
 
     public DynamoDBTemplateAdapter(DynamoDbEnhancedAsyncClient connectionFactory, ObjectMapper mapper) {
         /**
@@ -26,14 +27,21 @@ public class DynamoDBTemplateAdapter extends TemplateAdapterOperations<Stat, Str
         super(connectionFactory, mapper, d -> mapper.map(d, Stat.class /*domain model*/), "stats");
     }
 
+    @Override
     public Mono<List<Stat>> getEntityBySomeKeys(String partitionKey, String sortKey) {
         QueryEnhancedRequest queryExpression = generateQueryExpression(partitionKey, sortKey);
         return query(queryExpression);
     }
 
+    @Override
     public Mono<List<Stat>> getEntityBySomeKeysByIndex(String partitionKey, String sortKey) {
         QueryEnhancedRequest queryExpression = generateQueryExpression(partitionKey, sortKey);
         return queryByIndex(queryExpression);
+    }
+
+    @Override
+    public Mono<Stat> save(Stat stat) {
+        return super.save(stat);
     }
 
     private QueryEnhancedRequest generateQueryExpression(String partitionKey, String sortKey) {
